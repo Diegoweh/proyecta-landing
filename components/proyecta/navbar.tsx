@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 
 export function Navbar() {
   const [hidden, setHidden] = useState(false)
@@ -29,11 +30,14 @@ export function Navbar() {
       }`}
     >
       <div className="mx-auto max-w-[1120px] flex items-center justify-between px-6 py-4">
-        <Link
-          href="#"
-          className="font-sans text-xl font-bold text-ink tracking-tight no-underline"
-        >
-          Proyecta<span className="text-primary">.</span>
+       <Link href="#" className="inline-block">
+          <Image
+            src="/logo-dark.png"   // place your image inside /public
+            alt="Proyecta"
+            width={160}
+            height={40}
+            priority
+          />
         </Link>
         <Link
           href="#contacto"
