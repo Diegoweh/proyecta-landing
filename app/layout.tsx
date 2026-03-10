@@ -1,15 +1,37 @@
 import type { Metadata, Viewport } from 'next'
 import { DM_Sans, DM_Serif_Display } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { GoogleTagManager } from '@next/third-parties/google'
 import './globals.css'
+import FloatingWhatsApp from '@/components/ui/FloatingWhatsApp'
 
 const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-dm-sans', weight: ['300', '400', '500', '600', '700'] })
 const dmSerif = DM_Serif_Display({ subsets: ['latin'], variable: '--font-dm-serif', weight: ['400'] })
 
 export const metadata: Metadata = {
-  title: 'Proyecta — Marketing que genera reservas y ventas reales',
-  description: 'Agencia de marketing digital con resultados medibles para empresas de servicios, turismo, food y salud. Más leads calificados, más ventas, crecimiento real.',
-  generator: 'v0.app',
+  title: 'Proyecta — Marketing que genera ventas reales',
+  description: 'Agencia de marketing digital en México. Más leads, más ventas, más crecimiento para empresas de servicios, turismo, salud y alimentos.',
+  openGraph: {
+    title: 'Proyecta — Marketing que genera ventas reales',
+    description: 'Diagnóstico gratuito. Descubre cuánto puede crecer tu negocio con la estrategia digital correcta.',
+    url: 'https://proyecta.com.mx',
+    siteName: 'Proyecta',
+    images: [
+      {
+        url: 'https://proyecta.com.mx/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Proyecta — Marketing que genera ventas reales',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Proyecta — Marketing que genera ventas reales',
+    description: 'Diagnóstico gratuito. Descubre cuánto puede crecer tu negocio con la estrategia digital correcta.',
+    images: ['https://proyecta.com.mx/og-image.png'],
+  },
   icons: {
     icon: [
       {
@@ -42,9 +64,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`${dmSans.variable} ${dmSerif.variable}`}>
+      {process.env.NEXT_PUBLIC_GTM_ID && (
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
+      )}
       <body className="font-sans antialiased overflow-x-hidden">
         {children}
         <Analytics />
+        <FloatingWhatsApp />
       </body>
     </html>
   )
