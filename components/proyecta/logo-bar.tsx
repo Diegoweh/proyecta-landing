@@ -1,12 +1,11 @@
 import Image from "next/image"
 
 const logos = [
-  { src: "https://via.placeholder.com/120x40?text=Gran+Acuario", alt: "Gran Acuario Mazatl\u00e1n" },
-  { src: "https://via.placeholder.com/120x40?text=Costa+de+Oro", alt: "Costa de Oro" },
-  { src: "https://via.placeholder.com/120x40?text=Gavias", alt: "Gavias" },
-  { src: "https://via.placeholder.com/120x40?text=Mazat\u00fan", alt: "Mazat\u00fan" },
-  { src: "https://via.placeholder.com/120x40?text=MazaLife", alt: "MazaLife" },
-  { src: "https://via.placeholder.com/120x40?text=Photo+Planet", alt: "Photo Planet" },
+  { src: "/logos/clientes-05.png", alt: "Gran Acuario Mazatlán" },
+  { src: "/logos/clientes-06.png", alt: "Costa de Oro" },
+  { src: "/logos/clientes-07.png", alt: "Gavias" },  
+  { src: "/logos/clientes-09.png", alt: "MazaLife" },
+  { src: "/logos/clientes-10.png", alt: "Photo Planet" },
 ]
 
 export function LogoBar() {
@@ -16,7 +15,7 @@ export function LogoBar() {
         <p className="text-xs text-gray-400 uppercase tracking-widest font-semibold mb-5">
           Marcas que conf&iacute;an en nosotros
         </p>
-        <div className="flex items-center justify-center gap-9 flex-wrap opacity-55 grayscale">
+        <div className="flex items-center justify-center gap-15 flex-wrap opacity-55">
           {logos.map((logo) => (
             <Image
               key={logo.alt}
@@ -24,7 +23,7 @@ export function LogoBar() {
               alt={logo.alt}
               width={120}
               height={40}
-              className="h-8 w-auto object-contain"
+              className="h-25 w-auto object-contain"
               unoptimized
             />
           ))}
