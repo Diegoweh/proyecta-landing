@@ -1,5 +1,5 @@
 import { Reveal } from "./reveal"
-import { Building2, Hotel, UtensilsCrossed, HeartPulse } from "lucide-react"
+import { Building, Building2, HeartPulse, Hotel, ShoppingCart, UtensilsCrossed } from "lucide-react"
 import type { ReactNode } from "react"
 
 interface VerticalCardProps {
@@ -58,6 +58,20 @@ const verticals: VerticalCardProps[] = [
       "Cl\u00ednicas, spas, centros de bienestar. Marketing \u00e9tico con cumplimiento normativo, captaci\u00f3n de pacientes, y posicionamiento experto.",
     tags: ["Patient acquisition", "Reputation mgmt", "Compliant ads"],
   },
+  {
+    icon: <ShoppingCart className="w-7 h-7 text-ink" />,
+    title: "E-commerce & Tienda Online",
+    description:
+      "Tiendas en Shopify, WooCommerce, Amazon. Optimizaci\u00f3n de conversi\u00f3n, campa\u00f1as de cat\u00e1logo, recuperaci\u00f3n de carritos abandonados y estrategias de retenci\u00f3n que multiplican el ticket promedio.",
+    tags: ["Conversion rate", "Cat\u00e1logo din\u00e1mico", "Retenci\u00f3n & LTV"],
+  },
+  {
+    icon: <Building className="w-7 h-7 text-ink" />,
+    title: "Inmobiliario & Desarrollo",
+    description:
+      "Desarrolladoras, inmobiliarias, brokers. Landing pages de alta conversi\u00f3n, campa\u00f1as de leads calificados por rango de inversi\u00f3n, y nurturing automatizado que acorta el ciclo de venta.",
+    tags: ["Lead qualification", "Landing pages", "Nurturing automatizado"],
+  },
 ]
 
 export function VerticalsSection() {
@@ -70,7 +84,7 @@ export function VerticalsSection() {
         <h2 className="font-serif text-[clamp(1.8rem,3.5vw,2.8rem)] leading-[1.2] text-ink max-w-[640px] tracking-tight mb-12">
           Estrategias espec&iacute;ficas para cada sector, no recetas gen&eacute;ricas
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {verticals.map((v) => (
             <VerticalCard key={v.title} {...v} />
           ))}

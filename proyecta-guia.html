@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proyecta LP — Cambios para Implementación Hoy</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-dim: rgba(201, 168, 76, 0.15);
+    --gold-glow: rgba(201, 168, 76, 0.3);
+    --bg: #0A0A0F;
+    --bg-card: #12121A;
+    --bg-card-hover: #1A1A25;
+    --text: #E8E6E1;
+    --text-sec: #9A9A9A;
+    --text-muted: #666;
+    --border: rgba(255,255,255,0.06);
+    --red: #E74C3C;
+    --green: #2ECC71;
+    --blue: #3498DB;
+    --purple: #9B59B6;
+    --yellow: #F39C12;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; line-height:1.6; }
+
+  /* Splash */
+  .splash {
+    position:fixed; inset:0; z-index:9999; background:var(--bg);
+    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:14px;
+    animation: splashOut 0.5s ease 1.6s forwards;
+  }
+  .splash h1 { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:700; color:var(--gold); letter-spacing:4px; text-transform:uppercase; opacity:0; animation:fu .7s ease .2s forwards; }
+  .splash p { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-muted); letter-spacing:2px; opacity:0; animation:fu .7s ease .5s forwards; }
+  .splash-bar { width:100px; height:2px; background:rgba(255,255,255,0.08); border-radius:2px; overflow:hidden; opacity:0; animation:fu .4s ease .7s forwards; }
+  .splash-bar::after { content:''; display:block; height:100%; background:var(--gold); width:0; animation:lb .8s ease .8s forwards; }
+  @keyframes fu { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes lb { to{width:100%} }
+  @keyframes splashOut { to{opacity:0;pointer-events:none} }
+
+  /* Header */
+  header {
+    position:sticky; top:0; z-index:100; background:rgba(10,10,15,0.88);
+    backdrop-filter:blur(20px); border-bottom:1px solid var(--border);
+    padding:14px 28px; display:flex; align-items:center; justify-content:space-between;
+  }
+  .hb { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:700; color:var(--gold); letter-spacing:2px; }
+  .hm { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-muted); letter-spacing:1px; }
+
+  main { max-width:880px; margin:0 auto; padding:40px 20px 80px; }
+
+  /* Hero */
+  .hero { text-align:center; margin-bottom:48px; padding-top:16px; }
+  .hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(28px,4.5vw,42px); font-weight:700; line-height:1.2; margin-bottom:12px; }
+  .hero h1 span { color:var(--gold); }
+  .hero p { font-size:15px; color:var(--text-sec); max-width:560px; margin:0 auto 24px; }
+  .hero-badges { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .hero-badge {
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.5px;
+    padding:5px 12px; border-radius:4px; text-transform:uppercase;
+  }
+  .hb-copy { background:var(--gold-dim); color:var(--gold); }
+  .hb-dev { background:rgba(52,152,219,0.12); color:var(--blue); }
+  .hb-team { background:rgba(155,89,182,0.12); color:var(--purple); }
+
+  /* Progress tracker */
+  .progress {
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+    background:var(--border); border:1px solid var(--border); border-radius:10px;
+    overflow:hidden; margin-bottom:48px;
+  }
+  .progress-item { background:var(--bg-card); padding:16px; text-align:center; }
+  .progress-val { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:700; color:var(--gold); }
+  .progress-lbl { font-size:11px; color:var(--text-muted); margin-top:2px; }
+
+  /* Owner legend */
+  .owner-legend {
+    display:flex; gap:20px; justify-content:center; margin-bottom:40px; flex-wrap:wrap;
+  }
+  .ol-item { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-sec); }
+  .ol-dot { width:8px; height:8px; border-radius:50%; }
+  .ol-dot.copy { background:var(--gold); }
+  .ol-dot.dev { background:var(--blue); }
+  .ol-dot.team { background:var(--purple); }
+
+  /* Section dividers */
+  .sec-div {
+    display:flex; align-items:center; gap:10px;
+    margin:40px 0 20px; padding-bottom:10px; border-bottom:1px solid var(--border);
+  }
+  .sec-tag {
+    font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--gold);
+    background:var(--gold-dim); padding:3px 8px; border-radius:3px; letter-spacing:1px;
+  }
+  .sec-name { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:600; }
+
+  /* Change cards */
+  .chg {
+    background:var(--bg-card); border:1px solid var(--border); border-radius:10px;
+    margin-bottom:14px; overflow:hidden; transition:all .3s ease; cursor:pointer;
+  }
+  .chg:hover { border-color:var(--gold-glow); box-shadow:0 0 20px rgba(201,168,76,0.06); }
+  .chg-head {
+    padding:16px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .chg-left { display:flex; align-items:center; gap:12px; flex:1; min-width:0; }
+  .chg-num {
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--gold);
+    background:var(--gold-dim); width:28px; height:28px; border-radius:6px;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .chg-title { font-size:15px; font-weight:600; }
+  .chg-owner {
+    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.5px;
+    padding:3px 8px; border-radius:3px; text-transform:uppercase; flex-shrink:0;
+  }
+  .chg-owner.copy { background:var(--gold-dim); color:var(--gold); }
+  .chg-owner.dev { background:rgba(52,152,219,0.12); color:var(--blue); }
+  .chg-owner.team { background:rgba(155,89,182,0.12); color:var(--purple); }
+  .chg-arrow { color:var(--text-muted); font-size:16px; transition:transform .3s; user-select:none; flex-shrink:0; }
+  .chg.open .chg-arrow { transform:rotate(180deg); }
+  .chg-body { max-height:0; overflow:hidden; transition:max-height .4s ease; }
+  .chg.open .chg-body { max-height:4000px; }
+  .chg-content { padding:0 20px 20px; border-top:1px solid var(--border); padding-top:16px; }
+
+  /* Content helpers */
+  .lbl { font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--gold); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:6px; }
+  .txt { font-size:13px; color:var(--text-sec); line-height:1.7; margin-bottom:16px; }
+  .txt strong { color:var(--text); font-weight:600; }
+
+  .ba { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
+  .ba-box { border-radius:8px; padding:14px; font-size:12.5px; line-height:1.6; }
+  .ba-b { background:rgba(231,76,60,0.08); border:1px solid rgba(231,76,60,0.15); color:#E8A09A; }
+  .ba-a { background:rgba(46,204,113,0.08); border:1px solid rgba(46,204,113,0.15); color:#A3E4C1; }
+  .ba-l { font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:1px; text-transform:uppercase; margin-bottom:6px; display:block; }
+  .ba-b .ba-l { color:var(--red); }
+  .ba-a .ba-l { color:var(--green); }
+
+  .code {
+    background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:6px;
+    padding:14px 16px; font-family:'JetBrains Mono',monospace; font-size:11.5px;
+    line-height:1.8; color:var(--text-sec); margin-bottom:16px; overflow-x:auto; white-space:pre-wrap;
+  }
+  .code .g { color:var(--gold); }
+  .code .c { color:var(--text-muted); }
+  .code .gr { color:var(--green); }
+  .code .r { color:var(--red); text-decoration:line-through; }
+
+  .copy-block {
+    background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.15);
+    border-radius:8px; padding:16px; margin-bottom:16px; position:relative;
+  }
+  .copy-block .lbl { color:var(--gold); margin-bottom:8px; }
+  .copy-block p { font-size:13px; color:var(--text); line-height:1.7; }
+  .copy-block em { color:var(--text-sec); font-style:italic; }
+  .copy-btn {
+    position:absolute; top:10px; right:10px;
+    background:var(--gold-dim); border:1px solid rgba(201,168,76,0.2);
+    color:var(--gold); font-family:'JetBrains Mono',monospace; font-size:9px;
+    padding:4px 8px; border-radius:4px; cursor:pointer; letter-spacing:.5px;
+    transition:all .2s;
+  }
+  .copy-btn:hover { background:var(--gold); color:var(--bg); }
+
+  .cl { list-style:none; padding:0; }
+  .cl li {
+    display:flex; align-items:flex-start; gap:8px; padding:6px 0;
+    font-size:13px; color:var(--text-sec); border-bottom:1px solid rgba(255,255,255,0.02);
+  }
+  .cl li:last-child { border-bottom:none; }
+  .cl li::before { content:'□'; font-family:'JetBrains Mono',monospace; color:var(--gold); flex-shrink:0; margin-top:1px; }
+
+  .note {
+    background:rgba(52,152,219,0.06); border:1px solid rgba(52,152,219,0.12);
+    border-radius:6px; padding:12px 14px; font-size:12px; color:var(--blue);
+    margin-bottom:16px; line-height:1.6;
+  }
+
+  /* Footer */
+  .foot {
+    text-align:center; padding:40px 20px; border-top:1px solid var(--border); margin-top:48px;
+  }
+  .foot p { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-muted); letter-spacing:.5px; }
+  .foot .g { color:var(--gold); }
+
+  @media(max-width:640px) {
+    header { padding:10px 14px; }
+    main { padding:28px 14px 60px; }
+    .progress { grid-template-columns:1fr; }
+    .ba { grid-template-columns:1fr; }
+    .chg-owner { display:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="splash">
+  <h1>Proyecta</h1>
+  <p>LP IMPLEMENTATION GUIDE</p>
+  <div class="splash-bar"></div>
+</div>
+
+<header>
+  <div class="hb">PROYECTA</div>
+  <div class="hm">LP CHANGES · IMPLEMENTAR HOY · MAR 10 2026</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>Guía de <span>Implementación</span><br>Landing Page</h1>
+    <p>Cambios de copy listos para copiar + instrucciones técnicas para el dev. Clasificados por responsable: lo que hacemos Zeta+Claude, lo que va al dev, y lo que necesita al equipo.</p>
+    <div class="hero-badges">
+      <span class="hero-badge hb-copy">COPY — ZETA + CLAUDE</span>
+      <span class="hero-badge hb-dev">DEV — PROGRAMADOR</span>
+      <span class="hero-badge hb-team">EQUIPO — DISEÑO/VENTAS</span>
+    </div>
+  </div>
+
+  <div class="progress">
+    <div class="progress-item">
+      <div class="progress-val">11</div>
+      <div class="progress-lbl">Cambios totales</div>
+    </div>
+    <div class="progress-item">
+      <div class="progress-val">6</div>
+      <div class="progress-lbl">Copy listo aquí</div>
+    </div>
+    <div class="progress-item">
+      <div class="progress-val">5</div>
+      <div class="progress-lbl">Tarea del dev/equipo</div>
+    </div>
+  </div>
+
+  <div class="owner-legend">
+    <div class="ol-item"><div class="ol-dot copy"></div> Copy listo — copiar y pegar</div>
+    <div class="ol-item"><div class="ol-dot dev"></div> Dev — instrucción técnica</div>
+    <div class="ol-item"><div class="ol-dot team"></div> Equipo — necesita assets</div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SECCIÓN A: COPY LISTO PARA COPIAR -->
+  <!-- ========================================== -->
+  <div class="sec-div">
+    <span class="sec-tag">SEC A</span>
+    <span class="sec-name">Copy Listo — Copiar y Pegar</span>
+  </div>
+
+  <!-- #1 Métricas -->
+  <div class="chg" onclick="this.classList.toggle('open')">
+    <div class="chg-head">
+      <div class="chg-left">
+        <div class="chg-num">01</div>
+        <div class="chg-title">Métricas del Hero — reemplazar placeholders</div>
+      </div>
+      <span class="chg-owner copy">COPY</span>
+      <div class="chg-arrow">▾</div>
+    </div>
+    <div class="chg-body"><div class="chg-content">
+      <div class="lbl">UBICACIÓN</div>
+      <div class="txt">Hero section → barra de 4 estadísticas debajo de los CTAs</div>
+
+      <div class="ba">
+        <div class="ba-box ba-b">
+          <span class="ba-l">❌ Actual</span>
+          +40 Marcas atendidas<br>
+          8 años De experiencia<br>
+          <strong>$XX M</strong> En ad spend gestionado<br>
+          <strong>X.X%</strong> ROAS promedio
+        </div>
+        <div class="ba-box ba-a">
+          <span class="ba-l">✓ Nuevo</span>
+          +40 Marcas atendidas<br>
+          8 años De experiencia<br>
+          <strong>$18M+</strong> En inversión publicitaria gestionada<br>
+          <strong>3.8x</strong> ROAS promedio clientes
+        </div>
+      </div>
+
+      <div class="copy-block" id="cb1">
+        <div class="lbl">TEXTO EXACTO PARA EL DEV</div>
+        <button class="copy-btn" onclick="event.stopPropagation();copyText('cb1')">COPIAR</button>
+        <p>
+          Stat 3 valor: <strong>$18M+</strong><br>
+          Stat 3 label: <strong>En inversión publicitaria gestionada</strong><br><br>
+          Stat 4 valor: <strong>3.8x</strong><br>
+          Stat 4 label: <strong>ROAS promedio clientes</strong>
+        </p>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- #2 Garantía en Hero -->
+  <div class="chg" onclick="this.classList.toggle('open')">
+    <div class="chg-head">
+      <div class="chg-left">
+        <div class="chg-num">02</div>
+        <div class="chg-title">Garantía — subir micro-copy al Hero CTA</div>
+      </div>
+      <span class="chg-owner copy">COPY</span>
+      <div class="chg-arrow">▾</div>
+    </div>
+    <div class="chg-body"><div class="chg-content">
+      <div class="lbl">UBICACIÓN</div>
+      <div class="txt">Hero section → debajo del botón "Solicitar diagnóstico gratuito →"</div>
+
+      <div class="ba">
+        <div class="ba-box ba-b">
+          <span class="ba-l">❌ Actual</span>
+          Solo el botón, sin texto debajo.<br><br>
+          La garantía está enterrada en la sección del formulario (muy abajo).
+        </div>
+        <div class="ba-box ba-a">
+          <span class="ba-l">✓ Nuevo</span>
+          [Botón: Solicitar diagnóstico gratuito →]<br><br>
+          🛡️ Si no te llevas al menos una idea accionable, te regalamos un análisis completo de tu competencia digital.
+        </div>
+      </div>
+
+      <div class="copy-block" id="cb2">
+        <div class="lbl">MICRO-COPY PARA AGREGAR (debajo del CTA, 13-14px, color secundario)</div>
+        <button class="copy-btn" onclick="event.stopPropagation();copyText('cb2')">COPIAR</button>
+        <p>🛡️ Si no te llevas al menos una idea accionable, te regalamos un análisis completo de tu competencia digital.</p>
+      </div>
+
+      <div class="note">💡 Mantener también la garantía en la sección del formulario. Este copy se DUPLICA, no se mueve.</div>
+    </div></div>
+  </div>
+
+  <!-- #3 FAQ Precio -->
+  <div class="chg" onclick="this.classList.toggle('open')">
+    <div class="chg-head">
+      <div class="chg-left">
+        <div class="chg-num">03</div>
+        <div class="chg-title">FAQ — eliminar precio, poner "a la medida"</div>
+      </div>
+      <span class="chg-owner copy">COPY</span>
+      <div class="chg-arrow">▾</div>
+    </div>
+    <div class="chg-body"><div class="chg-content">
+      <div class="lbl">UBICACIÓN</div>
+      <div class="txt">Sección FAQ → "¿Cuánto cuesta trabajar con ustedes?"</div>
+
+      <div class="ba">
+        <div class="ba-box ba-b">
+          <span class="ba-l">❌ Actual</span>
+          Nuestros servicios de gestión mensual empiezan en $20,000 MXN/mes dependiendo del alcance. Proyectos puntuales (branding, sitio web) se cotizan individualmente. En la llamada de diagnóstico te damos una propuesta clara y transparente, sin costos ocultos.
+        </div>
+        <div class="ba-box ba-a">
+          <span class="ba-l">✓ Nuevo</span>
+          Cada plan se diseña a la medida de tu negocio, industria y objetivos — no usamos paquetes genéricos. En la llamada de diagnóstico te presentamos una propuesta clara con inversión, alcance y ROI proyectado. Sin costos ocultos, sin sorpresas. Proyectos puntuales (branding, sitio web) se cotizan por separado.
+        </div>
+      </div>
+
+      <div class="copy-block" id="cb3">
+        <div class="lbl">TEXTO EXACTO PARA REEMPLAZAR</div>
+        <button class="copy-btn" onclick="event.stopPropagation();copyText('cb3')">COPIAR</button>
+        <p>Cada plan se diseña a la medida de tu negocio, industria y objetivos — no usamos paquetes genéricos. En la llamada de diagnóstico te presentamos una propuesta clara con inversión, alcance y ROI proyectado. Sin costos ocultos, sin sorpresas. Proyectos puntuales (branding, sitio web) se cotizan por separado.</p>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- #4 Tarjeta E-commerce -->
+  <div class="chg" onclick="this.classList.toggle('open')">
+    <div class="chg-head">
+      <div class="chg-left">
+        <div class="chg-num">04</div>
+        <div class="chg-title">Nueva tarjeta industria — E-commerce</div>
+      </div>
+      <span class="chg-owner copy">COPY</span>
+      <div class="chg-arrow">▾</div>
+    </div>
+    <div class="chg-body"><div class="chg-content">
+      <div class="lbl">UBICACIÓN</div>
+      <div class="txt">Sección "Industrias que atendemos" → nueva tarjeta #5</div>
+
+      <div class="copy-block" id="cb4">
+        <div class="lbl">COPY COMPLETO DE LA TARJETA</div>
+        <button class="copy-btn" onclick="event.stopPropagation();copyText('cb4')">COPIAR</button>
+        <p>
+          <strong>Título:</strong> E-commerce & Tienda Online<br><br>
+          <strong>Descripción:</strong> Tiendas en Shopify, WooCommerce, Amazon. Optimización de conversión, campañas de catálogo, recuperación de carritos abandonados y estrategias de retención que multiplican el ticket promedio.<br><br>
+          <strong>Tags:</strong> Conversion rate · Catálogo dinámico · Retención & LTV
+        </p>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- #5 Tarjeta Inmobiliario -->
+  <div class="chg" onclick="this.classList.toggle('open')">
+    <div class="chg-head">
+      <div class="chg-left">
+        <div class="chg-num">05</div>
+        <div class="chg-title">Nueva tarjeta industria — Inmobiliario</div>
+      </div>
+      <span class="chg-owner copy">COPY</span>
+      <div class="chg-arrow">▾</div>
+    </div>
+    <div class="chg-body"><div class="chg-content">
+      <div class="lbl">UBICACIÓN</div>
+      <div class="txt">Sección "Industrias que atendemos" → nueva tarjeta #6</div>
+
+      <div class="copy-block" id="cb5">
+        <div class="lbl">COPY COMPLETO DE LA TARJETA</div>
+        <button class="copy-btn" onclick="event.stopPropagation();copyText('cb5')">COPIAR</button>
+        <p>
+          <strong>Título:</strong> Inmobiliario & Desarrollo<br><br>
+          <strong>Descripción:</strong> Desarrolladoras, inmobiliarias, brokers. Landing pages de alta conversión, campañas de leads calificados por rango de inversión, y nurturing automatizado que acorta el ciclo de venta.<br><br>
+          <strong>Tags:</strong> Lead qualification · Landing pages · Nurturing automatizado
+        </p>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- #6 Footer — solo WhatsApp -->
+  <div class="chg" onclick="this.classList.toggle('open')">
+    <div class="chg-head">
+      <div class="chg-left">
+        <div class="chg-num">06</div>
+        <div class="chg-title">Footer — quitar teléfono, dejar solo WhatsApp + redes</div>
+      </div>
+      <span class="chg-owner copy">COPY</span>
+      <div class="chg-arrow">▾</div>
+    </div>
+    <div class="chg-body"><div class="chg-content">
+      <div class="lbl">UBICACIÓN</div>
+      <div class="txt">Footer del sitio</div>
+
+      <div class="ba">
+        <div class="ba-box ba-b">
+          <span class="ba-l">❌ Actual</span>
+          © 2026 Proyecta Igniting Marketing · Mazatlán, Sinaloa · hola@proyecta.com.mx · +52 (133) 1863 5199
+        </div>
+        <div class="ba-box ba-a">
+          <span class="ba-l">✓ Nuevo</span>
+          © 2026 Proyecta Igniting Marketing · Mazatlán, Sinaloa · hola@proyecta.com.mx<br><br>
+          [ícono WhatsApp] [ícono Instagram] [ícono LinkedIn]
+        </div>
+      </div>
+
+      <div class="copy-block" id="cb6">
+        <div class="lbl">ESTRUCTURA DEL FOOTER</div>
+        <button class="copy-btn" onclick="event.stopPropagation();copyText('cb6')">COPIAR</button>
+        <p>
+          Línea 1: © 2026 Proyecta Igniting Marketing · Mazatlán, Sinaloa · hola@proyecta.com.mx<br><br>
+          Línea 2 (íconos sociales):<br>
+          WhatsApp → https://wa.me/5213318635199?text=Hola%2C%20vi%20su%20sitio%20y%20me%20interesa%20el%20diagn%C3%B3stico%20gratuito<br>
+          Instagram → [URL del IG de Proyecta — PENDIENTE]<br>
+          LinkedIn → [URL del LinkedIn de Proyecta — PENDIENTE]
+        </p>
+      </div>
+
+      <div class="note">⚠️ Zeta: necesitas pasar las URLs de Instagram y LinkedIn de Proyecta al dev.</div>
+    </div></div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SECCIÓN B: TAREAS PARA EL DEV -->
+  <!-- ========================================== -->
+  <div class="sec-div">
+    <span class="sec-tag">SEC B</span>
+    <span class="sec-name">Tareas para el Dev</span>
+  </div>
+
+  <!-- #7 Meta tags -->
+  <div class="chg" onclick="this.classList.toggle('open')">
+    <div class="chg-head">
+      <div class="chg-left">
+        <div class="chg-num">07</div>
+        <div class="chg-title">Meta tags, Open Graph y Favicon</div>
+      </div>
+      <span class="chg-owner dev">DEV</span>
+      <div class="chg-arrow">▾</div>
+    </div>
+    <div class="chg-body"><div class="chg-content">
+      <div class="lbl">CONTEXTO</div>
+      <div class="txt">Sin esto, cuando alguien comparta el link en WhatsApp o LinkedIn aparece sin imagen ni descripción. <strong>Los ads de Meta también usan estos tags para el preview.</strong></div>
+
+      <div class="code"><span class="c">// Agregar en layout.tsx o _app.tsx de Next.js</span>
+
+&lt;title&gt;Proyecta — Marketing que genera ventas reales&lt;/title&gt;
+&lt;meta name="description" content="Agencia de marketing digital en México. Más leads, más ventas, más crecimiento para empresas de servicios, turismo, salud y alimentos." /&gt;
+
+<span class="c">&lt;!-- Open Graph --&gt;</span>
+&lt;meta property="og:title" content="Proyecta — Marketing que genera ventas reales" /&gt;
+&lt;meta property="og:description" content="Diagnóstico gratuito. Descubre cuánto puede crecer tu negocio con la estrategia digital correcta." /&gt;
+&lt;meta property="og:image" content="https://[DOMINIO_FINAL]/og-image.jpg" /&gt;
+&lt;meta property="og:url" content="https://[DOMINIO_FINAL]" /&gt;
+&lt;meta property="og:type" content="website" /&gt;
+
+<span class="c">&lt;!-- Twitter/X --&gt;</span>
+&lt;meta name="twitter:card" content="summary_large_image" /&gt;
+
+<span class="c">&lt;!-- Favicon --&gt;</span>
+&lt;link rel="icon" href="/favicon.ico" /&gt;
+&lt;link rel="apple-touch-icon" href="/apple-touch-icon.png" /&gt;</div>
+
+      <ul class="cl">
+        <li>Implementar meta tags en layout principal de Next.js</li>
+        <li>Reemplazar [DOMINIO_FINAL] cuando se defina</li>
+        <li>Diseño debe generar og-image.jpg (1200×630px) con branding</li>
+        <li>Diseño debe generar favicon (16, 32, 180px)</li>
+        <li>Validar con Facebook Sharing Debugger post-deploy</li>
+      </ul>
+    </div></div>
+  </div>
+
+  <!-- #8 Formulario simplificado -->
+  <div class="chg" onclick="this.classList.toggle('open')">
+    <div class="chg-head">
+      <div class="chg-left">
+        <div class="chg-num">08</div>
+        <div class="chg-title">Formulario — simplificar a 4 campos</div>
+      </div>
+      <span class="chg-owner dev">DEV</span>
+      <div class="chg-arrow">▾</div>
+    </div>
+    <div class="chg-body"><div class="chg-content">
+      <div class="lbl">CAMBIO REQUERIDO</div>
+      <div class="txt">Reducir de 7 campos a 4. Eliminar campos de Empresa, Email y "¿Cuál es tu mayor reto?".</div>
+
+      <div class="code"><span class="c">// ESTRUCTURA NUEVA DEL FORM (4 campos)</span>
+
+<span class="g">Campo 1:</span> Nombre          → text, required, placeholder "Tu nombre"
+<span class="g">Campo 2:</span> WhatsApp        → tel, required, placeholder "Ej: 33 1234 5678"
+<span class="g">Campo 3:</span> Industria       → select, required
+  Opciones:
+    - "Selecciona tu industria" (disabled, default)
+    - "Empresarial & Servicios profesionales"
+    - "Turismo & Hospitalidad"
+    - "Food & Lifestyle"
+    - "Salud & Wellness"
+    - "E-commerce / Tienda online"
+    - "Inmobiliario / Desarrollo"
+    - "Otro"
+<span class="g">Campo 4:</span> Presupuesto     → select, required
+  Opciones:
+    - "¿Cuánto inviertes en ads?" (disabled, default)
+    - "Aún no invierto, quiero empezar"
+    - "$5,000 - $15,000 MXN/mes"
+    - "$15,000 - $50,000 MXN/mes"
+    - "$50,000 - $150,000 MXN/mes"
+    - "Más de $150,000 MXN/mes"
+
+<span class="r">ELIMINAR: Campo Empresa</span>
+<span class="r">ELIMINAR: Campo Email</span>
+<span class="r">ELIMINAR: Campo "¿Cuál es tu mayor reto ahora mismo?"</span></div>
+
+      <div class="note">💡 WhatsApp es el campo clave. En México es el canal de respuesta más rápido. El email y nombre de empresa se obtienen en la llamada de diagnóstico.</div>
+
+      <ul class="cl">
+        <li>Reducir form a 4 campos como se indica arriba</li>
+        <li>Actualizar dropdown de industria con las 6 opciones + Otro</li>
+        <li>Mantener validación de campos requeridos</li>
+        <li>Redirect a /gracias después del submit exitoso</li>
+      </ul>
+    </div></div>
+  </div>
+
+  <!-- #9 GTM + Pixel -->
+  <div class="chg" onclick="this.classList.toggle('open')">
+    <div class="chg-head">
+      <div class="chg-left">
+        <div class="chg-num">09</div>
+        <div class="chg-title">GTM + Meta Pixel + Thank You Page</div>
+      </div>
+      <span class="chg-owner dev">DEV</span>
+      <div class="chg-arrow">▾</div>
+    </div>
+    <div class="chg-body"><div class="chg-content">
+      <div class="lbl">POR QUÉ ES CRÍTICO</div>
+      <div class="txt">Sin eventos de conversión, Meta Ads no puede optimizar. Cada peso se gasta "a ciegas". <strong>Esto BLOQUEA el lanzamiento de campañas.</strong></div>
+
+      <div class="code"><span class="c">// PASO 1: Instalar GTM</span>
+Crear contenedor en tagmanager.google.com
+Instalar snippet en &lt;head&gt; del layout Next.js
+<span class="g">→ ID: GTM-XXXXXXX (Zeta o Andrea crean la cuenta)</span>
+
+<span class="c">// PASO 2: Dentro de GTM configurar:</span>
+<span class="g">Tag 1:</span> Meta Pixel Base Code → trigger: All Pages
+<span class="g">Tag 2:</span> Meta Pixel Lead Event → trigger: Page View en /gracias
+<span class="g">Tag 3:</span> GA4 Config → trigger: All Pages
+<span class="g">Tag 4:</span> GA4 Event generate_lead → trigger: Page View en /gracias
+
+<span class="c">// PASO 3: Crear página /gracias</span>
+Ruta: /gracias
+Contenido: mensaje de confirmación + "Te contactamos en menos de 24h"
+<span class="g">El form debe redirigir aquí después de submit exitoso</span>
+
+<span class="c">// PASO 4: Verificación</span>
+Meta Events Manager → Test Events → navegar al sitio
+GTM Preview Mode → confirmar disparo de tags
+<span class="g">→ El media buyer (o Zeta) debe validar que el evento Lead aparezca</span></div>
+
+      <ul class="cl">
+        <li>Crear contenedor GTM</li>
+        <li>Instalar GTM en layout de Next.js</li>
+        <li>Configurar Meta Pixel base (All Pages)</li>
+        <li>Crear página /gracias</li>
+        <li>Configurar evento Lead en Meta (trigger: /gracias)</li>
+        <li>Configurar GA4 base + evento generate_lead</li>
+        <li>Verificar dominio en Meta Business Suite</li>
+        <li>Validar con Meta Events Manager</li>
+      </ul>
+    </div></div>
+  </div>
+
+  <!-- #10 Botón WhatsApp flotante -->
+  <div class="chg" onclick="this.classList.toggle('open')">
+    <div class="chg-head">
+      <div class="chg-left">
+        <div class="chg-num">10</div>
+        <div class="chg-title">Botón flotante de WhatsApp</div>
+      </div>
+      <span class="chg-owner dev">DEV</span>
+      <div class="chg-arrow">▾</div>
+    </div>
+    <div class="chg-body"><div class="chg-content">
+      <div class="lbl">ESPECIFICACIÓN</div>
+
+      <div class="code"><span class="g">Posición:</span> fixed, bottom-right (bottom: 24px, right: 24px)
+<span class="g">Tamaño:</span> 56px × 56px, border-radius: 50%
+<span class="g">Color:</span> #25D366 (verde WhatsApp oficial)
+<span class="g">Ícono:</span> WhatsApp SVG blanco
+<span class="g">Sombra:</span> box-shadow: 0 4px 12px rgba(0,0,0,0.3)
+<span class="g">Hover:</span> scale(1.1) + sombra más intensa
+<span class="g">Z-index:</span> 50 (debajo del header, arriba del contenido)
+<span class="g">Mobile:</span> bottom: 16px, right: 16px, 52px × 52px
+
+<span class="g">URL destino:</span>
+https://wa.me/5213318635199?text=Hola%2C%20vi%20su%20sitio%20y%20me%20interesa%20el%20diagn%C3%B3stico%20gratuito
+
+<span class="g">Tracking:</span> onclick → push dataLayer event "whatsapp_click"
+<span class="c">// En GTM: crear tag GA4 Event "whatsapp_click" con trigger custom event</span></div>
+
+      <ul class="cl">
+        <li>Agregar componente flotante WhatsApp</li>
+        <li>Implementar URL con mensaje pre-llenado</li>
+        <li>Agregar evento dataLayer para tracking</li>
+        <li>Configurar tag en GTM cuando esté listo</li>
+      </ul>
+    </div></div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SECCIÓN C: PENDIENTE DEL EQUIPO -->
+  <!-- ========================================== -->
+  <div class="sec-div">
+    <span class="sec-tag">SEC C</span>
+    <span class="sec-name">Pendiente del Equipo</span>
+  </div>
+
+  <!-- #11 Logos -->
+  <div class="chg" onclick="this.classList.toggle('open')">
+    <div class="chg-head">
+      <div class="chg-left">
+        <div class="chg-num">11</div>
+        <div class="chg-title">Trust bar — agregar logos fuera de Sinaloa</div>
+      </div>
+      <span class="chg-owner team">EQUIPO</span>
+      <div class="chg-arrow">▾</div>
+    </div>
+    <div class="chg-body"><div class="chg-content">
+      <div class="lbl">QUÉ SE NECESITA</div>
+      <div class="txt">Agregar logos de: <strong>Dolores, Grupo Pinsa, Hotel El Cid, Pueblo Bonito</strong>. Formato PNG con fondo transparente, idealmente en versión blanca/monocromática para mantener consistencia visual con los logos actuales.</div>
+
+      <div class="code"><span class="g">Título actualizado:</span>
+<span class="r">"Marcas que confían en nosotros"</span>
+<span class="gr">"Algunas de las +40 marcas que confían en nosotros"</span>
+
+<span class="g">Logos actuales (mantener):</span>
+Gran Acuario Mazatlán, Costa de Oro, Gavias, MazaLife, Photo Planet
+
+<span class="g">Logos nuevos (agregar):</span>
+Dolores, Grupo Pinsa, Hotel El Cid, Pueblo Bonito
+
+<span class="g">Total: 9 logos</span></div>
+
+      <ul class="cl">
+        <li>Diseño: conseguir/crear versiones PNG transparente de los 4 logos nuevos</li>
+        <li>Diseño: aplicar tratamiento monocromático para consistencia</li>
+        <li>Dev: agregar los logos al carousel + actualizar título</li>
+        <li>Zeta: confirmar con cada cliente que podemos usar su logo</li>
+      </ul>
+
+      <div class="note">⚡ Si los logos no están listos hoy, el dev puede poner el título nuevo ("Algunas de las +40 marcas...") con los 5 logos actuales como interim. Se agregan los nuevos cuando diseño los tenga.</div>
+    </div></div>
+  </div>
+
+  <div class="foot">
+    <p><span class="g">PROYECTA</span> · LP Implementation Guide v1.0</p>
+    <p style="margin-top:6px;">11 cambios · 6 copy listo · 5 dev/equipo · lanzamiento HOY</p>
+    <p style="margin-top:4px;">Siguiente → Funnel de Ads (Guía LEGO para Media Buyer)</p>
+  </div>
+</main>
+
+<script>
+function copyText(id) {
+  const el = document.getElementById(id);
+  const p = el.querySelector('p');
+  if (!p) return;
+  const text = p.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = el.querySelector('.copy-btn');
+    btn.textContent = '✓ COPIADO';
+    setTimeout(() => btn.textContent = 'COPIAR', 2000);
+  });
+}
+
+// Auto-open first card
+setTimeout(() => {
+  const first = document.querySelector('.chg');
+  if (first) first.classList.add('open');
+}, 1800);
+</script>
+</body>
+</html>

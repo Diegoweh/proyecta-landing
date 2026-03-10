@@ -38,25 +38,31 @@ export function Hero() {
       </p>
 
       <div className="mt-9 flex gap-4 flex-wrap animate-[fadeUp_0.6s_0.3s_ease-out_both]">
-        <Link
-          href="#contacto"
-          className="bg-primary text-primary-foreground px-8 py-3.5 rounded-[10px] font-semibold text-base no-underline inline-flex items-center gap-2 transition-all duration-200 hover:bg-accent-dark hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(200,16,46,0.2)]"
-        >
-          {'Solicitar diagn\u00f3stico gratuito \u2192'}
-        </Link>
+        <div className="flex flex-col gap-3">
+          <Link
+            href="#contacto"
+            className="bg-primary text-primary-foreground px-8 py-3.5 rounded-[10px] font-semibold text-base no-underline inline-flex items-center gap-2 transition-all duration-200 hover:bg-accent-dark hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(200,16,46,0.2)]"
+          >
+            {'Solicitar diagn\u00f3stico gratuito \u2192'}
+          </Link>          
+        </div>
         <Link
           href="#resultados"
           className="bg-transparent text-ink px-8 py-3.5 rounded-[10px] font-semibold text-base no-underline border-2 border-gray-200 transition-all duration-200 hover:border-ink"
         >
           {'Ver casos de \u00e9xito'}
         </Link>
+        
       </div>
+      <p className="text-sm mt-5 text-gray-500 max-w-[420px]">
+            {"\ud83d\udee1\ufe0f Si no te llevas al menos una idea accionable, te regalamos un an\u00e1lisis completo de tu competencia digital."}
+      </p>
 
       <div className="mt-14 flex gap-10 flex-wrap animate-[fadeUp_0.6s_0.4s_ease-out_both]">
         <HeroStat value="+40" label="Marcas atendidas" />
         <HeroStat value="8 años" label="De experiencia" />
-        <HeroStat value="$XX M" label="En ad spend gestionado" />
-        <HeroStat value="X.X%" label="ROAS promedio" />
+        <HeroStat value="$18M+" label="En inversión publicitaria gestionada" />
+        <HeroStat value="3.8x" label="ROAS promedio clientes" />
       </div>
     </section>
   )

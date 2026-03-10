@@ -17,7 +17,7 @@ const faqs: FaqItemData[] = [
   {
     question: "\u00bfCu\u00e1nto cuesta trabajar con ustedes?",
     answer:
-      "Nuestros servicios de gesti\u00f3n mensual empiezan en $20,000 MXN/mes dependiendo del alcance. Proyectos puntuales (branding, sitio web) se cotizan individualmente. En la llamada de diagn\u00f3stico te damos una propuesta clara y transparente, sin costos ocultos.",
+      "Cada plan se dise\u00f1a a la medida de tu negocio, industria y objetivos \u2014 no usamos paquetes gen\u00e9ricos. En la llamada de diagn\u00f3stico te presentamos una propuesta clara con inversi\u00f3n, alcance y ROI proyectado. Sin costos ocultos, sin sorpresas. Proyectos puntuales (branding, sitio web) se cotizan por separado.",
   },
   {
     question: "Estoy fuera de Mazatl\u00e1n, \u00bfpueden trabajar conmigo?",
