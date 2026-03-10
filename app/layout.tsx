@@ -14,11 +14,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Proyecta — Marketing que genera ventas reales',
     description: 'Diagnóstico gratuito. Descubre cuánto puede crecer tu negocio con la estrategia digital correcta.',
-    url: 'https://proyecta.com.mx',
+    url: 'https://landing.proyecta.com.mx',
     siteName: 'Proyecta',
     images: [
       {
-        url: 'https://proyecta.com.mx/og-image.png',
+        url: 'https://landing.proyecta.com.mx/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Proyecta — Marketing que genera ventas reales',
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Proyecta — Marketing que genera ventas reales',
     description: 'Diagnóstico gratuito. Descubre cuánto puede crecer tu negocio con la estrategia digital correcta.',
-    images: ['https://proyecta.com.mx/og-image.png'],
+    images: ['https://landing.proyecta.com.mx/og-image.png'],
   },
   icons: {
     icon: [
