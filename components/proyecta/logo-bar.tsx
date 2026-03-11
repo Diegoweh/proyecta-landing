@@ -1,11 +1,15 @@
 import Image from "next/image"
 
 const logos = [
+  { src: "/logos/clientes-04.png", alt: "El Cid" },
   { src: "/logos/clientes-05.png", alt: "Gran Acuario Mazatlán" },
   { src: "/logos/clientes-06.png", alt: "Costa de Oro" },
-  { src: "/logos/clientes-07.png", alt: "Gavias" },  
+  { src: "/logos/clientes-07.png", alt: "Gavias" },
+  { src: "/logos/clientes-08.png", alt: "Photo Planet" },  
   { src: "/logos/clientes-09.png", alt: "MazaLife" },
-  { src: "/logos/clientes-10.png", alt: "Photo Planet" },
+  { src: "/logos/clientes-10.png", alt: "Pinsa" },
+  { src: "/logos/clientes-11.png", alt: "Pueblo Bonito" },
+  { src: "/logos/clientes-12.png", alt: "Dolores" },
 ]
 
 export function LogoBar() {
@@ -15,7 +19,7 @@ export function LogoBar() {
         <p className="text-xs text-gray-400 uppercase tracking-widest font-semibold mb-5">
           Marcas que conf&iacute;an en nosotros
         </p>
-        <div className="flex items-center justify-center gap-15 flex-wrap opacity-55">
+        <div className="flex items-center justify-center gap-5 flex-wrap opacity-55">
           {logos.map((logo) => (
             <Image
               key={logo.alt}
