@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { DM_Sans, DM_Serif_Display } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
-import { GoogleTagManager } from '@next/third-parties/google'
+import { GoogleTagManager, GoogleAnalytics } from '@next/third-parties/google'
 import './globals.css'
 import FloatingWhatsApp from '@/components/ui/FloatingWhatsApp'
 
@@ -67,6 +67,7 @@ export default function RootLayout({
       {process.env.NEXT_PUBLIC_GTM_ID && (
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
       )}
+      <GoogleAnalytics gaId="G-YNJG5LTJY5" />
       <body className="font-sans antialiased overflow-x-hidden">
         {children}
         <Analytics />
