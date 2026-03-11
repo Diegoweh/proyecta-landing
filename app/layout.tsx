@@ -4,33 +4,50 @@ import { Analytics } from '@vercel/analytics/next'
 import { GoogleTagManager, GoogleAnalytics } from '@next/third-parties/google'
 import './globals.css'
 import FloatingWhatsApp from '@/components/ui/FloatingWhatsApp'
+import { organizationName, seoKeywords, siteUrl } from '@/lib/seo'
 
 const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-dm-sans', weight: ['300', '400', '500', '600', '700'] })
 const dmSerif = DM_Serif_Display({ subsets: ['latin'], variable: '--font-dm-serif', weight: ['400'] })
 
 export const metadata: Metadata = {
-  title: 'Proyecta — Marketing que genera ventas reales',
-  description: 'Agencia de marketing digital en México. Más leads, más ventas, más crecimiento para empresas de servicios, turismo, salud y alimentos.',
+  metadataBase: new URL(siteUrl),
+  title: 'Proyecta | Agencia de Marketing Digital en México — Resultados Reales',
+  description: 'Agencia de marketing digital en México. Más leads, más ventas para empresas de servicios, turismo, salud y e-commerce. Solicita tu diagnóstico gratuito hoy.',
+  keywords: seoKeywords,
+  authors: [{ name: organizationName }],
+  publisher: organizationName,
+  alternates: {
+    canonical: siteUrl,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
   openGraph: {
-    title: 'Proyecta — Marketing que genera ventas reales',
-    description: 'Diagnóstico gratuito. Descubre cuánto puede crecer tu negocio con la estrategia digital correcta.',
-    url: 'https://landing.proyecta.com.mx',
+    title: 'Proyecta | Agencia de Marketing Digital en México — Resultados Reales',
+    description: 'Agencia de marketing digital en México. Más leads, más ventas para empresas de servicios, turismo, salud y e-commerce. Solicita tu diagnóstico gratuito hoy.',
+    url: siteUrl,
     siteName: 'Proyecta',
     images: [
       {
-        url: 'https://landing.proyecta.com.mx/og-image.png',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Proyecta — Marketing que genera ventas reales',
+        alt: 'Proyecta | Agencia de Marketing Digital en México — Resultados Reales',
       },
     ],
+    locale: 'es_MX',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Proyecta — Marketing que genera ventas reales',
-    description: 'Diagnóstico gratuito. Descubre cuánto puede crecer tu negocio con la estrategia digital correcta.',
-    images: ['https://landing.proyecta.com.mx/og-image.png'],
+    title: 'Proyecta | Agencia de Marketing Digital en México — Resultados Reales',
+    description: 'Agencia de marketing digital en México. Más leads, más ventas para empresas de servicios, turismo, salud y e-commerce. Solicita tu diagnóstico gratuito hoy.',
+    images: ['/og-image.png'],
   },
   icons: {
     icon: [

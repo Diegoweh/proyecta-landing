@@ -21,32 +21,32 @@ const services: ServiceItemProps[] = [
   {
     title: "Campa\u00f1as de Paid Media",
     description:
-      "Meta Ads, Google Ads, TikTok Ads. Estructura, segmentaci\u00f3n, creativos y optimizaci\u00f3n continua enfocada en generar leads y ventas, no clics vac\u00edos.",
+      "Google Ads, Meta Ads y TikTok Ads con estructura, segmentaci\u00f3n, creativos y optimizaci\u00f3n continua enfocada en generar leads calificados, ventas y mejor ROI.",
   },
   {
     title: "Branding e Identidad",
     description:
-      "Concepto rector, identidad visual, manual de marca y sistema gr\u00e1fico. Tu marca como activo estrat\u00e9gico que diferencia y posiciona frente a la competencia.",
+      "Concepto rector, identidad visual, manual de marca y sistema gr\u00e1fico para diferenciar tu negocio y elevar la percepci\u00f3n de valor que convierte mejor en campa\u00f1as y ventas.",
   },
   {
     title: "Desarrollo Web",
     description:
-      "Sitios dise\u00f1ados para convertir visitantes en clientes. UX pensada en tu usuario, velocidad optimizada, y embudo de conversi\u00f3n integrado desde el d\u00eda uno.",
+      "Sitios y landing pages dise\u00f1ados para convertir visitantes en clientes, con UX enfocada en conversi\u00f3n, velocidad optimizada y embudos listos para captar leads.",
   },
   {
     title: "SEO y Contenido",
     description:
-      "Posicionamiento org\u00e1nico con estrategia de contenido, SEO t\u00e9cnico, y arquitectura que escala tu visibilidad y autoridad mes a mes.",
+      "Posicionamiento org\u00e1nico con SEO t\u00e9cnico, estrategia de contenido y arquitectura web que aumenta tu visibilidad en Google y atrae demanda con alta intenci\u00f3n de compra.",
   },
   {
     title: "Producci\u00f3n Audiovisual",
     description:
-      "Fotograf\u00eda, video, motion graphics y reels. Contenido que detiene el scroll, comunica tu valor y convierte atenci\u00f3n en acci\u00f3n.",
+      "Fotograf\u00eda, video, motion graphics y reels para anuncios y contenido comercial que detienen el scroll, comunican tu propuesta de valor y mejoran el rendimiento de campa\u00f1as.",
   },
   {
     title: "Estrategia y Consultor\u00eda",
     description:
-      "Diagn\u00f3stico de tu ecosistema digital, plan de acci\u00f3n priorizado, y acompa\u00f1amiento estrat\u00e9gico con reportes que hablan de negocio, no de vanidad.",
+      "Diagn\u00f3stico de tu ecosistema digital, plan de acci\u00f3n priorizado y acompa\u00f1amiento estrat\u00e9gico con reportes orientados a leads, ventas, CAC y retorno de inversi\u00f3n.",
   },
 ]
 
@@ -57,7 +57,7 @@ export function ServicesSection() {
         Lo que hacemos
       </p>
       <h2 className="font-serif text-[clamp(1.8rem,3.5vw,2.8rem)] leading-[1.2] max-w-[640px] tracking-tight text-ink mb-12">
-        Todo lo que necesitas para crecer, bajo un solo equipo
+        Servicios de Marketing Digital Integral Bajo un Solo Equipo Estrat&eacute;gico
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-0.5 bg-gray-200 rounded-xl overflow-hidden">
         {services.map((service) => (

@@ -5,10 +5,10 @@ export function FinalCta() {
   return (
     <Reveal as="section" className="py-24 px-6 text-center max-w-[1120px] mx-auto">
       <h2 className="font-serif text-[clamp(1.8rem,4vw,3rem)] leading-[1.15] tracking-tight text-ink max-w-[580px] mx-auto mb-6 text-balance">
-        Deja de adivinar. Empieza a crecer con estrategia.
+        Deja de Perder Clientes. Contrata una Agencia que Entrega Resultados Reales.
       </h2>
       <p className="text-gray-600 text-[1.05rem] max-w-[500px] mx-auto mb-9 leading-relaxed">
-        Solicita tu diagn&oacute;stico gratuito y descubre cu&aacute;nto puede mejorar tu presencia digital con el equipo correcto.
+        Solicita tu diagn&oacute;stico gratuito y descubre c&oacute;mo mejorar tu captaci&oacute;n de leads, tus ventas y tu retorno con una estrategia digital bien ejecutada.
       </p>
       <Link
         href="#contacto"

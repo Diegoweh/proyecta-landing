@@ -25,16 +25,16 @@ export function Hero() {
       </div> */}
 
       <h1 className="font-serif text-[clamp(2.4rem,5.5vw,4.2rem)] leading-[1.12] tracking-tight text-ink max-w-[780px] animate-[fadeUp_0.6s_0.1s_ease-out_both] text-balance">
-        Tu marketing deber&iacute;a generar{" "}
+        Agencia de Marketing Digital en M&eacute;xico{" "}
         <em className="not-italic text-primary relative">
-          clientes reales
+          que genera leads reales
           <span className="absolute bottom-0.5 left-0 right-0 h-[3px] bg-primary/30 rounded-sm" />
-        </em>
-        , no solo m&eacute;tricas bonitas
+        </em>{" "}
+        y ventas medibles
       </h1>
 
       <p className="mt-6 text-lg text-gray-600 max-w-[560px] leading-relaxed animate-[fadeUp_0.6s_0.2s_ease-out_both]">
-        Somos la agencia que empresas de servicios, turismo, salud y alimentos en todo M&eacute;xico eligen cuando necesitan resultados medibles: m&aacute;s leads calificados, m&aacute;s ventas, m&aacute;s crecimiento.
+        Ayudamos a empresas de servicios, turismo, salud y e-commerce en M&eacute;xico a conseguir m&aacute;s leads calificados, m&aacute;s ventas y un ROI claro con estrategias de SEO, Google Ads, paid media y desarrollo web.
       </p>
 
       <div className="mt-9 flex gap-4 flex-wrap animate-[fadeUp_0.6s_0.3s_ease-out_both]">

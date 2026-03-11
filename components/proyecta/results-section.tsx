@@ -26,19 +26,19 @@ const results: ResultCardProps[] = [
   {
     metric: "+340%",
     description:
-      "Incremento en venta de boletos online en los primeros 6 meses de gesti\u00f3n de campa\u00f1as digitales.",
+      "Incremento en ventas online durante los primeros 6 meses tras optimizar campa\u00f1as digitales, creativos y embudos de conversi\u00f3n.",
     client: "Gran Acuario Mazatl\u00e1n \u00b7 Turismo & Hospitalidad",
   },
   {
     metric: "3.8x",
     description:
-      "Retorno sobre inversi\u00f3n publicitaria en campa\u00f1as de generaci\u00f3n de leads para servicios profesionales.",
+      "Retorno sobre inversi\u00f3n publicitaria en campa\u00f1as de Google Ads y generaci\u00f3n de leads para servicios profesionales.",
     client: "Gavias \u00b7 Empresarial & Servicios",
   },
   {
     metric: "-62%",
     description:
-      "Reducci\u00f3n en costo por lead calificado despu\u00e9s de reestructurar campa\u00f1as y optimizar audiencias.",
+      "Reducci\u00f3n del costo por lead calificado despu\u00e9s de reestructurar paid media, segmentaci\u00f3n y optimizaci\u00f3n de audiencias.",
     client: "Costa de Oro \u00b7 Turismo & Hospitalidad",
   },
 ]
@@ -51,7 +51,7 @@ export function ResultsSection() {
           Casos de &eacute;xito
         </p>
         <h2 className="font-serif text-[clamp(1.8rem,3.5vw,2.8rem)] leading-[1.2] max-w-[640px] tracking-tight text-white">
-          No hablamos de m&eacute;tricas vanidad. Hablamos de clientes y ventas reales.
+          Marketing de Resultados: M&aacute;s Clientes, M&aacute;s Ventas, Mejor ROI
         </h2>
         <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
           {results.map((result) => (

@@ -58,7 +58,7 @@ export function ContactSection() {
         {/* Left column */}
         <div className="relative z-10">
           <h2 className="font-serif text-[clamp(1.6rem,3vw,2.4rem)] text-white leading-[1.2] tracking-tight mb-5">
-            Solicita tu diagn&oacute;stico gratuito
+            Solicita Tu Diagn&oacute;stico de Marketing Gratuito, Sin Compromiso
           </h2>
           <p className="text-white/60 text-base leading-relaxed mb-8">
             En una llamada de 20 minutos analizamos tu situaci&oacute;n actual y te damos al menos 3 oportunidades concretas para mejorar tus resultados. Sin compromiso, sin pitch agresivo &mdash; solo datos y recomendaciones.

@@ -23,25 +23,25 @@ const steps: ProcessStepProps[] = [
     num: "01",
     title: "Diagn\u00f3stico gratuito",
     description:
-      "Analizamos tu presencia digital, tus ads, tu sitio web y tu competencia. Te decimos exactamente d\u00f3nde est\u00e1n las oportunidades \u2014 sin compromiso.",
+      "Analizamos tu presencia digital, tus campa\u00f1as de Google Ads o Meta Ads, tu sitio web y tu competencia para detectar oportunidades claras de captaci\u00f3n y ventas.",
   },
   {
     num: "02",
     title: "Estrategia a la medida",
     description:
-      "Dise\u00f1amos un plan espec\u00edfico para tu negocio, tu industria y tus objetivos. Cada acci\u00f3n tiene un KPI medible y un timeline claro.",
+      "Dise\u00f1amos un plan espec\u00edfico para tu negocio, tu industria y tus objetivos, con acciones de SEO, paid media, contenido o web seg\u00fan el punto de mayor retorno.",
   },
   {
     num: "03",
     title: "Ejecuci\u00f3n integral",
     description:
-      "Nuestro equipo de estrategas, dise\u00f1adores, desarrolladores y productores ejecuta, mide y ajusta. T\u00fa te enfocas en tu negocio.",
+      "Nuestro equipo de estrategas, dise\u00f1adores, desarrolladores y productores ejecuta, mide y optimiza para mejorar leads, conversiones y costo por adquisici\u00f3n.",
   },
   {
     num: "04",
     title: "Reportes de negocio",
     description:
-      "Cada mes recibes un reporte que habla de clientes, ventas y ROI \u2014 no de alcance e impresiones. Datos que sirven para tomar decisiones.",
+      "Cada mes recibes un reporte que habla de clientes, ventas, ROI y siguientes acciones, no solo de alcance, impresiones o clics.",
   },
 ]
 
@@ -53,7 +53,7 @@ export function ProcessSection() {
           C&oacute;mo trabajamos
         </p>
         <h2 className="font-serif text-[clamp(1.8rem,3.5vw,2.8rem)] leading-[1.2] max-w-[640px] tracking-tight text-ink mb-14">
-          De la primera llamada a resultados medibles en 30 d&iacute;as
+          Resultados Medibles desde el Primer Mes, con un Proceso Claro y Transparente
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {steps.map((step) => (
