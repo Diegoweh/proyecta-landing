@@ -81,7 +81,7 @@ export function VerticalsSection() {
         <p className="text-xs uppercase tracking-[0.12em] text-primary font-bold mb-4">
           Industrias que atendemos
         </p>
-        <h2 className="font-serif text-[clamp(1.8rem,3.5vw,2.8rem)] leading-[1.2] text-ink max-w-[640px] tracking-tight mb-12">
+        <h2 className="font-serif text-[clamp(1.8rem,3.5vw,2.8rem)] leading-[1.2] text-ink max-w-[840px] tracking-tight mb-12">
           Estrategias de Marketing por Industria: Turismo, Salud, E-commerce y M&aacute;s
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
