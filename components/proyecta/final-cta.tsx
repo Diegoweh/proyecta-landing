@@ -1,5 +1,5 @@
-import Link from "next/link"
 import { Reveal } from "./reveal"
+import { ScrollLink } from "./scroll-link"
 
 export function FinalCta() {
   return (
@@ -10,12 +10,12 @@ export function FinalCta() {
       <p className="text-gray-600 text-[1.05rem] max-w-[500px] mx-auto mb-9 leading-relaxed">
         Solicita tu diagn&oacute;stico gratuito y descubre c&oacute;mo mejorar tu captaci&oacute;n de leads, tus ventas y tu retorno con una estrategia digital bien ejecutada.
       </p>
-      <Link
+      <ScrollLink
         href="#contacto"
         className="bg-primary text-primary-foreground px-8 py-3.5 rounded-[10px] font-semibold text-base no-underline inline-flex items-center gap-2 transition-all duration-200 hover:bg-accent-dark hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(200,16,46,0.2)]"
       >
         {'Solicitar diagn\u00f3stico gratuito \u2192'}
-      </Link>
+      </ScrollLink>
     </Reveal>
   )
 }

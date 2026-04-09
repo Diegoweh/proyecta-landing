@@ -6,51 +6,95 @@ import { Reveal } from "./reveal"
 import { Target } from "lucide-react"
 
 interface FormData {
-  name: string
-  phone: string
-  industry: string
-  budget: string
+  nombre: string
+  empresa: string
+  email: string
+  whatsapp: string
+  industria: string
+  presupuesto: string
+  reto: string
 }
 
-const WEBHOOK_URL = "TU_WEBHOOK_URL_DE_MAKE"
+const LEADS_API_URL = process.env.NEXT_PUBLIC_LEADS_ENDPOINT
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const WHATSAPP_REGEX = /^\d{10}$/
 
 export function ContactSection() {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
   const [formData, setFormData] = useState<FormData>({
-    name: "",
-    phone: "",
-    industry: "",
-    budget: "",
+    nombre: "",
+    empresa: "",
+    email: "",
+    whatsapp: "",
+    industria: "",
+    presupuesto: "",
+    reto: "",
   })
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setErrorMessage("")
+
+    const normalizedData = {
+      nombre: formData.nombre.trim(),
+      empresa: formData.empresa.trim(),
+      email: formData.email.trim(),
+      whatsapp: formData.whatsapp.replace(/\D/g, ""),
+      industria: formData.industria.trim(),
+      presupuesto: formData.presupuesto.trim(),
+      reto: formData.reto.trim(),
+    }
+
+    if (Object.values(normalizedData).some((value) => !value)) {
+      setErrorMessage("Todos los campos son obligatorios.")
+      return
+    }
+
+    if (!EMAIL_REGEX.test(normalizedData.email)) {
+      setErrorMessage("Ingresa un email valido.")
+      return
+    }
+
+    if (!WHATSAPP_REGEX.test(normalizedData.whatsapp)) {
+      setErrorMessage("Ingresa un numero de WhatsApp de 10 digitos.")
+      return
+    }
+
+    if (!LEADS_API_URL) {
+      setErrorMessage("El endpoint de contacto no esta configurado.")
+      return
+    }
+
     setIsSubmitting(true)
 
-    const payload = {
-      ...formData,
-      timestamp: new Date().toISOString(),
-      source: "landing-proyecta",
-    }
+    try {
+      const response = await fetch(LEADS_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...normalizedData,
+          origen: "landing.proyecta.com.mx",
+        }),
+      })
 
-    if (WEBHOOK_URL !== "TU_WEBHOOK_URL_DE_MAKE") {
-      try {
-        await fetch(WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        })
-      } catch (err) {
-        console.error("Webhook error:", err)
+      if (!response.ok) {
+        setErrorMessage("Hubo un error, por favor intenta de nuevo.")
+        return
       }
-    }
 
-    router.push("/gracias")
+      router.push("/gracias")
+    } catch (error) {
+      console.error("Webhook error:", error)
+      setErrorMessage("Hubo un error de conexion.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
-    <section className="py-24 px-6 max-w-[1120px] mx-auto" id="contacto">
+    <section className="py-24 px-6 max-w-[1120px] mx-auto scroll-mt-28" id="contacto">
       <Reveal className="bg-ink rounded-[20px] p-16 md:p-16 max-md:p-6 grid grid-cols-1 md:grid-cols-2 gap-14 items-start overflow-hidden relative">
         {/* Background glow */}
         <div className="absolute -top-24 -right-24 w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(200,16,46,0.15)_0%,transparent_70%)] pointer-events-none" />
@@ -86,8 +130,39 @@ export function ContactSection() {
                   type="text"
                   placeholder="Tu nombre"
                   required
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  name="nombre"
+                  value={formData.nombre}
+                  onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+                  className="w-full bg-white/[0.08] border border-white/[0.12] rounded-lg px-4 py-3 text-white font-sans text-[0.95rem] placeholder:text-white/25 focus:outline-none focus:border-primary focus:bg-white/[0.12] transition-all duration-200"
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-white/50 text-xs font-semibold uppercase tracking-wide">
+                  Empresa
+                </label>
+                <input
+                  type="text"
+                  placeholder="Nombre de tu empresa"
+                  required
+                  name="empresa"
+                  value={formData.empresa}
+                  onChange={(e) => setFormData({ ...formData, empresa: e.target.value })}
+                  className="w-full bg-white/[0.08] border border-white/[0.12] rounded-lg px-4 py-3 text-white font-sans text-[0.95rem] placeholder:text-white/25 focus:outline-none focus:border-primary focus:bg-white/[0.12] transition-all duration-200"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-white/50 text-xs font-semibold uppercase tracking-wide">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  placeholder="tu@empresa.com"
+                  required
+                  name="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full bg-white/[0.08] border border-white/[0.12] rounded-lg px-4 py-3 text-white font-sans text-[0.95rem] placeholder:text-white/25 focus:outline-none focus:border-primary focus:bg-white/[0.12] transition-all duration-200"
                 />
               </div>
@@ -99,8 +174,9 @@ export function ContactSection() {
                   type="tel"
                   placeholder="Ej: 33 1234 5678"
                   required
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  name="whatsapp"
+                  value={formData.whatsapp}
+                  onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
                   className="w-full bg-white/[0.08] border border-white/[0.12] rounded-lg px-4 py-3 text-white font-sans text-[0.95rem] placeholder:text-white/25 focus:outline-none focus:border-primary focus:bg-white/[0.12] transition-all duration-200"
                 />
               </div>
@@ -111,8 +187,9 @@ export function ContactSection() {
               </label>
               <select
                 required
-                value={formData.industry}
-                onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
+                name="industria"
+                value={formData.industria}
+                onChange={(e) => setFormData({ ...formData, industria: e.target.value })}
                 className="w-full bg-white/[0.08] border border-white/[0.12] rounded-lg px-4 py-3 text-white font-sans text-[0.95rem] cursor-pointer focus:outline-none focus:border-primary focus:bg-white/[0.12] transition-all duration-200"
               >
                 <option value="" disabled className="bg-ink text-white">
@@ -133,8 +210,9 @@ export function ContactSection() {
               </label>
               <select
                 required
-                value={formData.budget}
-                onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                name="presupuesto"
+                value={formData.presupuesto}
+                onChange={(e) => setFormData({ ...formData, presupuesto: e.target.value })}
                 className="w-full bg-white/[0.08] border border-white/[0.12] rounded-lg px-4 py-3 text-white font-sans text-[0.95rem] cursor-pointer focus:outline-none focus:border-primary focus:bg-white/[0.12] transition-all duration-200"
               >
                 <option value="" disabled className="bg-ink text-white">
@@ -147,6 +225,25 @@ export function ContactSection() {
                 <option value="150k+" className="bg-ink text-white">{'M\u00e1s de $150,000 MXN/mes'}</option>
               </select>
             </div>
+            <div className="flex flex-col gap-1.5 mt-4">
+              <label className="text-white/50 text-xs font-semibold uppercase tracking-wide">
+                Reto principal
+              </label>
+              <textarea
+                placeholder="Cuentanos cual es tu principal reto comercial o de marketing"
+                required
+                name="reto"
+                value={formData.reto}
+                onChange={(e) => setFormData({ ...formData, reto: e.target.value })}
+                rows={4}
+                className="w-full bg-white/[0.08] border border-white/[0.12] rounded-lg px-4 py-3 text-white font-sans text-[0.95rem] placeholder:text-white/25 focus:outline-none focus:border-primary focus:bg-white/[0.12] transition-all duration-200 resize-none"
+              />
+            </div>
+            {errorMessage ? (
+              <p className="text-[#ffb4b4] text-sm mt-4" role="alert">
+                {errorMessage}
+              </p>
+            ) : null}
             <button
               type="submit"
               disabled={isSubmitting}

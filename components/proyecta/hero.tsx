@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { ScrollLink } from "./scroll-link"
 
 interface HeroStatProps {
   value: string
@@ -39,12 +40,12 @@ export function Hero() {
 
       <div className="mt-9 flex gap-4 flex-wrap animate-[fadeUp_0.6s_0.3s_ease-out_both]">
         <div className="flex flex-col gap-3">
-          <Link
+          <ScrollLink
             href="#contacto"
             className="bg-primary text-primary-foreground px-8 py-3.5 rounded-[10px] font-semibold text-base no-underline inline-flex items-center gap-2 transition-all duration-200 hover:bg-accent-dark hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(200,16,46,0.2)]"
           >
             {'Solicitar diagn\u00f3stico gratuito \u2192'}
-          </Link>          
+          </ScrollLink>
         </div>
         <Link
           href="#resultados"

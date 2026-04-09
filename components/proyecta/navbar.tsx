@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { ScrollLink } from "./scroll-link"
 
 export function Navbar() {
   const [hidden, setHidden] = useState(false)
@@ -39,12 +40,12 @@ export function Navbar() {
             priority
           />
         </Link>
-        <Link
+        <ScrollLink
           href="#contacto"
           className="bg-primary text-primary-foreground px-6 py-2.5 rounded-lg font-semibold text-sm no-underline transition-all duration-200 hover:bg-accent-dark hover:-translate-y-px"
         >
           {'Solicitar diagn\u00f3stico gratis \u2192'}
-        </Link>
+        </ScrollLink>
       </div>
     </nav>
   )
