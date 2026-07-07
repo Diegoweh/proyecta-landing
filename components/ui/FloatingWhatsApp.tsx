@@ -2,8 +2,12 @@
 
 import { MessageCircle } from 'lucide-react';
 import { sendGTMEvent } from '@next/third-parties/google';
+import { usePathname } from 'next/navigation';
 
 export default function FloatingWhatsApp() {
+  const pathname = usePathname();
+  if (pathname?.startsWith('/web')) return null;
+
   return (
     <a
       href="https://wa.me/5213318635199?text=Hola%2C%20vi%20su%20sitio%20y%20me%20interesa%20el%20diagn%C3%B3stico%20gratuito"
